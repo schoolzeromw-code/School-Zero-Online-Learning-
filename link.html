@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SZA | Unified MSCE Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --sza-green: #2db92d;
+            --moodle-dark-green: #007055;
+            --sza-blue: #4a90e2;
+            --bg-gray: #f2f4f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { background: var(--bg-gray); color: #333; overflow-x: hidden; }
+
+        /* --- 1. INSTITUTIONAL HEADER (Matches your Screenshot) --- */
+        .main-nav { 
+            background-color: var(--sza-green); 
+            padding: 15px 10px; 
+            color: white; 
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .nav-links { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 18px; }
+        .nav-links a { color: white; text-decoration: none; cursor: pointer; padding: 5px; }
+        .nav-links span { opacity: 0.7; font-weight: 100; }
+
+        /* --- 2. LOGIN GATEWAY (Matches 1000011070.png) --- */
+        #login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #e9ecef; z-index: 2000; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-box { background: white; padding: 35px; width: 90%; max-width: 420px; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .login-box h2 { color: var(--sza-blue); font-weight: 300; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; text-align: center; }
+        
+        .input-group { position: relative; margin-bottom: 15px; }
+        .input-group input { width: 100%; padding: 12px 40px 12px 10px; border: 1px solid #ccc; border-radius: 3px; outline: none; }
+        .input-group i { position: absolute; right: 15px; top: 13px; color: #999; }
+        
+        .login-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .login-btn { background: var(--sza-blue); color: white; border: none; padding: 10px 25px; border-radius: 3px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+
+        /* --- 3. MOODLE INTERFACE (Matches Screenshot_20260424-140921.jpg) --- */
+        .moodle-header { 
+            background: var(--moodle-dark-green); color: white; 
+            padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; 
+        }
+        .moodle-container { max-width: 800px; margin: 0 auto; padding: 15px; }
+        .section-box { background: white; border-radius: 4px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-top: 1px dashed #ccc; }
+        .section-title { font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+
+        .course-card { border: 1px solid #ddd; border-radius: 4px; overflow: hidden; background: white; }
+        .course-banner { height: 80px; background: #f9d976; display: flex; align-items: center; justify-content: center; color: rgba(0,0,0,0.1); }
+
+        /* --- 4. SYSTEM UTILITIES --- */
+        .hidden { display: none !important; }
+        .fab-contact { 
+            position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; 
+            background: #25d366; color: white; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-size: 30px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; z-index: 3000;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="nav-links">
+            <a onclick="showPage('student-login')">Students Portal</a> <span>|</span>
+            <a onclick="staffAccess()">Staff Portal</a> <span>|</span>
+            <a onclick="showPage('moodle')">MOODLE</a> <span>|</span>
+            <a href="mailto:admin@sza.mw">Web Mail</a> <span>|</span>
+            <a href="#">Alumni</a> <span>|</span>
+            <i class="fa-solid fa-magnifying-glass" style="margin-left:5px; cursor:pointer;"></i>
+        </div>
+    </nav>
+
+    <div id="student-login" class="login-overlay">
+        <div class="login-box">
+            <h2>Please Enter Your Information</h2>
+            <div class="input-group">
+                <input type="text" id="user" placeholder="Username">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="input-group">
+                <input type="password" id="pass" placeholder="Password">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <div class="login-footer">
+                <label style="font-size: 14px; color: #666;"><input type="checkbox"> Remember Me</label>
+                <button class="login-btn" onclick="handleLogin()">
+                    <i class="fa-solid fa-key"></i> Login
+                </button>
+            </div>
+            <p style="margin-top: 25px; font-size: 13px; color: #888; text-align: center;">
+                Help Desk: <a href="tel:0893110685" style="color:var(--sza-blue); text-decoration:none;">0893110685</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="moodle-page" class="hidden">
+        <div class="moodle-header">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <i class="fa-solid fa-bars"></i>
+                <span style="font-size:18px;">Dashboard</span>
+            </div>
+            <div style="display:flex; gap:15px;">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-comment"></i>
+                <div style="width:25px; height:25px; background:#ddd; border-radius:50%; color:#333; font-size:10px; display:flex; align-items:center; justify-content:center;">DS</div>
+            </div>
+        </div>
+
+        <div class="moodle-container">
+            <div class="section-box">
+                <div class="section-title"><i class="fa-solid fa-arrow-up"></i> Timeline</div>
+                <input type="text" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" placeholder="Search by activity name...">
+                <p style="text-align:center; color:#999; margin-top:15px; font-size:14px;">No activities require action</p>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Recently accessed courses</div>
+                <div class="course-card">
+                    <div class="course-banner"><i class="fa-solid fa-graduation-cap fa-2x"></i></div>
+                    <div style="padding:12px;">
+                        <strong>Computer Applications</strong><br>
+                        <small style="color:#888;">MSCE NEW CURRICULUM</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-box" style="text-align:center; border-top: 2px solid var(--moodle-dark-green);">
+                <p style="margin-bottom:10px;">Institutional Support</p>
+                <a href="tel:0893110685" style="font-size:22px; color:var(--moodle-dark-green); text-decoration:none; font-weight:bold;">
+                    <i class="fa-solid fa-phone-volume"></i> 0893110685
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/265893110685" class="fab-contact" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        let isLoggedIn = false;
+
+        function showPage(pageId) {
+            // Hide everything
+            document.getElementById('student-login').classList.add('hidden');
+            document.getElementById('moodle-page').classList.add('hidden');
+
+            if (pageId === 'moodle') {
+                if (!isLoggedIn) {
+                    alert("Please login to access Moodle");
+                    document.getElementById('student-login').classList.remove('hidden');
+                } else {
+                    document.getElementById('moodle-page').classList.remove('hidden');
+                }
+            } else if (pageId === 'student-login') {
+                document.getElementById('student-login').classList.remove('hidden');
+            }
+        }
+
+        function handleLogin() {
+            // Simple logic to simulate login
+            isLoggedIn = true;
+            alert("Login Successful - Accessing SZA Moodle");
+            showPage('moodle');
+        }
+
+        function staffAccess() {
+            let key = prompt("Director Access Key Required:");
+            if(key === "SZA2026") {
+                alert("Welcome Director. Staff management tools unlocked.");
+            } else {
+                alert("Invalid Access Key.");
+            }
+        }
+    </script>
+</body>
+              </html>
+                                             
